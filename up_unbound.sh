@@ -37,6 +37,16 @@ greeting() {
 
 update() {
 
+        echo
+        echo "Here is the contents of the old list we will be replacing..."
+        echo
+
+        sudo cat /var/lib/unbound/root.hints;
+
+        echo
+        echo "Updating to the new list..."
+        echo
+
         sudo wget -O root.hints https://www.internic.net/domain/named.root;
         check_exit_status
 
