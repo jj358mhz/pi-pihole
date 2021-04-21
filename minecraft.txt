@@ -1,0 +1,6 @@
+(\.|^)xbox\.com$
+(\.|^)xboxlive\.com$
+minecraftprod.rtep.msgamestudios.com
+web.vortex.data.microsoft.com
+in.appcenter.ms
+game-bungee.prod.minehut.com
