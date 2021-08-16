@@ -43,23 +43,23 @@ sudo nano /etc/keepalived/keepalived.conf
 
 ### Explanation of the options:
 
--**router_id**: should be an unique name, for instance your Pi-hole hostname
+- **router_id**: should be an unique name, for instance your Pi-hole hostname
 
--**state**: describes which server is the Master/Active and which is the Backup/Standby server.
+- **state**: describes which server is the Master/Active and which is the Backup/Standby server.
 
--**interface**: change this according to your network interface (e.g. eth0, ens3 etc)
+- **interface**: change this according to your network interface (e.g. eth0, ens3 etc)
 
--**virtual_router_id**: this can be any number between 0 and 255. Must be the same on the Master and Backup configs.
+- **virtual_router_id**: this can be any number between 0 and 255. Must be the same on the Master and Backup configs.
 
--**priority**: the master server should have a higher priority than the backup server.
+- **priority**: the master server should have a higher priority than the backup server.
 
--**unicast_src_ip**: should be the IP address of the first (Master) server.
+- **unicast_src_ip**: should be the IP address of the first (Master) server.
 
--**unicast_peer**: should be the IP address of the second and/or third (Backup) server(s).
+- **unicast_peer**: should be the IP address of the second and/or third (Backup) server(s).
 
--**auth_pass**: create your own (max 8 character) password. Must be the same on the Master and Backup configs.
+- **auth_pass**: create your own (max 8 character) password. Must be the same on the Master and Backup configs.
 
--**virtual_ipaddress**: this will be the HA IP address.
+- **virtual_ipaddress**: this will be the HA IP address.
 
 4. Restart the keepalived service. Run this command on all machines.
 
