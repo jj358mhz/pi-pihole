@@ -1,0 +1,73 @@
+{
+	"service": {
+		"nat": {
+			"rule": {
+				"4001": {
+					"description": "transparent dns redirect",
+					"destination": {
+						"port": "53"
+					},
+					"inbound-interface": "eth1",
+					"inside-address": {
+						"address": "10.10.10.10",
+						"port": "53"
+					},
+					"protocol": "tcp_udp",
+					"type": "destination"
+				},
+				"4002": {
+					"description": "transparent dns redirect",
+					"destination": {
+						"port": "53"
+					},
+					"inbound-interface": "eth1.10",
+					"inside-address": {
+						"address": "10.10.10.10",
+						"port": "53"
+					},
+					"protocol": "tcp_udp",
+					"type": "destination"
+				},
+				"4003": {
+					"description": "transparent dns redirect",
+					"destination": {
+						"port": "53"
+					},
+					"inbound-interface": "eth1.20",
+					"inside-address": {
+						"address": "10.10.10.10",
+						"port": "53"
+					},
+					"protocol": "tcp_udp",
+					"type": "destination"
+				},
+        "4004": {
+					"description": "transparent dns redirect",
+					"destination": {
+						"port": "53"
+					},
+					"inbound-interface": "eth1.30",
+					"inside-address": {
+						"address": "10.10.10.10",
+						"port": "53"
+					},
+					"protocol": "tcp_udp",
+					"type": "destination"
+				},
+				"4005": {
+					"description": "transparent dns redirect",
+					"destination": {
+						"port": "53"
+					},
+					"inbound-interface": "eth1.40",
+					"inside-address": {
+						"address": "10.10.10.10",
+						"port": "53"
+					},
+					"protocol": "tcp_udp",
+					"type": "destination"
+				}
+			}
+		}
+	}
+}
