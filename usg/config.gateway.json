@@ -41,7 +41,7 @@
 					"protocol": "tcp_udp",
 					"type": "destination"
 				},
-        "4004": {
+				"4004": {
 					"description": "transparent dns redirect",
 					"destination": {
 						"port": "53"
