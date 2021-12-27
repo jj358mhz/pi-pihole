@@ -50,6 +50,12 @@ update() {
         sudo wget -O root.hints https://www.internic.net/domain/named.root;
         check_exit_status
 
+        echo
+        echo "Let's see what was updated in the list..."
+        echo
+
+        sudo diff root.hints /var/lib/unbound/root.hints;
+
         sudo mv root.hints /var/lib/unbound/;
         check_exit_status
 
