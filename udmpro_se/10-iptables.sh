@@ -1,4 +1,3 @@
-
 #!/bin/sh
 
 iptables -t nat -A PREROUTING -p tcp --dport 53 -j DNAT --to 10.10.10.10
