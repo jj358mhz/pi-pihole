@@ -20,9 +20,9 @@ sudo systemctl enable keepalived.service
 You can copy the version `chk_ftl` from the git repo
 
 ```bash
-mkdir /etc/scripts
-nano /etc/scripts/chk_ftl
-chmod 755 /etc/scripts/chk_ftl
+sudo mkdir /etc/scripts
+sudo nano /etc/scripts/chk_ftl
+sudo chmod 755 /etc/scripts/chk_ftl
 ```
 
 ## Configuration
