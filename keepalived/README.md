@@ -27,14 +27,14 @@ chmod 755 /etc/scripts/chk_ftl
 
 ## Configuration
 
-2. Now we will add the keepalived configuration on the first Pi-hole machine, the Master/Active server.
+2. Now we will add the keepalived configuration on the Master/Active Pi-hole server.
 You can copy the version `pihole1_keepalived.conf` from the git repo
 
 ```bash
 sudo nano /etc/keepalived/keepalived.conf
 ```
 
-3. Now we will add the keepalived configuration on the first Pi-hole machine, the Slave/Backup server(s).
+3. Now we will add the keepalived configuration on the Slave/Backup Pi-hole machine server(s).
 You can copy the versions `pihole2_keepalived.conf` and/or `pihole3_keepalived.conf` from the git repo
 
 ```bash
