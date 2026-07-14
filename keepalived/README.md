@@ -1,72 +1,57 @@
-# keepalived for PiHole
+# keepalived HA for Pi-hole
 
-How to run 2 Pi-hole servers in HA (High Availability).
+Manages the floating VIP `192.168.53.53/24` between the two Pi-hole hosts.
 
-## Installation
+## Topology
 
-1. First we need to install keepalived. Run this command on your PiHoles.
+- **raspberrypi-hole1** (`192.168.53.51`) — MASTER, priority 150
+- **raspberrypi-hole2** (`192.168.53.52`) — BACKUP, priority 145
+
+## Files
+
+- `hole1_keepalived.conf`, `hole2_keepalived.conf` — per-host config, with `auth_pass` redacted
+- `chk_ftl` — health probe script, checks that `pihole-FTL` is running; keepalived subtracts 10
+  from priority when it exits non-zero, triggering failover
+- `README.md` — this file
+
+## Deploy on a fresh host
 
 ```bash
+# 1. Install
 sudo apt update && sudo apt install keepalived -y
-```
-After the install we need to enable keepalived. Run this command on both machines.
-
-```bash
 sudo systemctl enable keepalived.service
-```
 
-### Script to monitor pi-hole ftl service
-
-You can copy the version `chk_ftl` from the git repo
-
-```bash
-sudo mkdir /etc/scripts
-sudo nano /etc/scripts/chk_ftl
+# 2. Health probe
+sudo mkdir -p /etc/scripts
+sudo cp chk_ftl /etc/scripts/chk_ftl
 sudo chmod 755 /etc/scripts/chk_ftl
-```
 
-## Configuration
-
-2. Now we will add the keepalived configuration on the Master/Active Pi-hole server.
-You can copy the version `pihole1_keepalived.conf` from the git repo
-
-```bash
+# 3. Config — copy the right file for this host
+sudo cp hole1_keepalived.conf /etc/keepalived/keepalived.conf   # or hole2
+# Fill in the real auth_pass from 1Password ("Homelab · keepalived VRRP auth")
 sudo nano /etc/keepalived/keepalived.conf
-```
 
-3. Now we will add the keepalived configuration on the Slave/Backup Pi-hole machine server(s).
-You can copy the versions `pihole2_keepalived.conf` and/or `pihole3_keepalived.conf` from the git repo
-
-```bash
-sudo nano /etc/keepalived/keepalived.conf
-```
-
-### Explanation of the options:
-
-- **router_id**: should be an unique name, for instance your Pi-hole hostname
-
-- **state**: describes which server is the Master/Active and which is the Backup/Standby server.
-
-- **interface**: change this according to your network interface (e.g. eth0, ens3 etc)
-
-- **virtual_router_id**: this can be any number between 0 and 255. Must be the same on the Master and Backup configs.
-
-- **priority**: the master server should have a higher priority than the backup server.
-
-- **unicast_src_ip**: should be the IP address of the first (Master) server.
-
-- **unicast_peer**: should be the IP address of the second and/or third (Backup) server(s).
-
-- **auth_pass**: create your own (max 8 character) password. Must be the same on the Master and Backup configs.
-
-- **virtual_ipaddress**: this will be the HA IP address.
-
-4. Restart the keepalived service. Run this command on all machines.
-
-```bash
+# 4. Start
 sudo systemctl restart keepalived.service
+sudo systemctl status keepalived.service
 ```
 
-## Running State
+## Verify failover
 
-5. Change your DHCP server settings to hand out a single (primary) DNS server and use the HA IP address: <virtual_ipaddress>
+Stop `pihole-FTL` on the current MASTER (`sudo systemctl stop pihole-FTL`) and confirm the VIP
+migrates to the BACKUP within ~2 seconds:
+
+```bash
+ip addr show eth0 | grep 192.168.53.53
+```
+
+Restart FTL and the VIP returns to the higher-priority host.
+
+## Notes
+
+- `virtual_router_id 55` must match between the two hosts. Change it if you have another VRRP group
+  on the same L2 segment (unlikely on a home network)
+- `auth_pass` is limited to 8 characters by keepalived's protocol. Rotate it in 1Password and on
+  both hosts if you suspect exposure
+- VRRP auth is transmitted as cleartext on the wire; it's a weak anti-tamper measure, not a
+  security control. The real defense is that this VLAN is not routable from outside your LAN.
