@@ -1,0 +1,16 @@
+services:
+  nebula-sync:
+    image: ghcr.io/lovelaze/nebula-sync:v0.11.2
+    container_name: nebula-sync
+    restart: unless-stopped
+    environment:
+      - PRIMARY=${PRIMARY}
+      - REPLICAS=${REPLICAS}
+      - FULL_SYNC=${FULL_SYNC:-true}
+      - CRON=${CRON:-* * * * *}
+      - TZ=${TZ:-America/Los_Angeles}
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
