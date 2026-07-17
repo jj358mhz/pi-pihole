@@ -1,5 +1,7 @@
 # pi-pihole
 
+[![Release version](https://img.shields.io/github/v/release/jj358mhz/pi-pihole)](https://github.com/jj358mhz/pi-pihole/releases/latest)
+
 Configuration and utilities for the Pi-hole HA pair on my home network.
 
 ## Architecture
